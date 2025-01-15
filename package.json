@@ -1,7 +1,7 @@
 {
-  "name": "jobly-solution",
+  "name": "jobly",
   "version": "2.0.0",
-  "description": "",
+  "description": "This is the Express backend for Jobly, version 2.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -31,5 +31,13 @@
   },
   "devDependencies": {
     "supertest": "^5.0.0-0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brice-USF-Bootcamp-Projects/39.1-Jobly.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Brice-USF-Bootcamp-Projects/39.1-Jobly/issues"
+  },
+  "homepage": "https://github.com/Brice-USF-Bootcamp-Projects/39.1-Jobly#readme"
 }
