@@ -1,4 +1,5 @@
 "use strict";
+// models/company.test.js
 
 const db = require("../db.js");
 const { BadRequestError, NotFoundError } = require("../expressError.js");

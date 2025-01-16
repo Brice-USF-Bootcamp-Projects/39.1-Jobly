@@ -1,3 +1,5 @@
+// helpers/tokens.test.js
+
 const jwt = require("jsonwebtoken");
 const { createToken } = require("../helpers/tokens");
 const { SECRET_KEY } = require("../config");

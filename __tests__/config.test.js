@@ -1,4 +1,5 @@
 "use strict";
+// config.test.js
 
 describe("config can come from env", function () {
   test("works", function() {

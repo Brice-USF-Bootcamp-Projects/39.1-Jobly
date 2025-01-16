@@ -1,3 +1,5 @@
+// helpers/sql.test.js
+
 const { sqlForPartialUpdate } = require('../helpers/sql');
 const { BadRequestError } = require('../expressError');
 

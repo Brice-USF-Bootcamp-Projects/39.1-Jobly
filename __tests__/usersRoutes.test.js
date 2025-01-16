@@ -1,10 +1,11 @@
 "use strict";
+// routes/usersRoutes.test.js
 
 const request = require("supertest");
 
 const db = require("../db.js");
-const app = require("../app");
-const User = require("../models/user");
+const app = require("../app.js");
+const User = require("../models/user.js");
 
 const {
   commonBeforeAll,
@@ -12,7 +13,7 @@ const {
   commonAfterEach,
   commonAfterAll,
   u1Token,
-} = require("./_testCommon");
+} = require("../routes/_testCommon.js");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);

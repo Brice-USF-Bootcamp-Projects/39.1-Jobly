@@ -1,4 +1,5 @@
 "use strict";
+// routes/companiesRoutes.test.js
 
 const request = require("supertest");
 
@@ -11,7 +12,7 @@ const {
   commonAfterEach,
   commonAfterAll,
   u1Token,
-} = require("./_testCommon");
+} = require("../routes/_testCommon");
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
