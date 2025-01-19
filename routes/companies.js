@@ -52,12 +52,40 @@ router.post("/", ensureLoggedIn, async function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
   try {
-    const companies = await Company.findAll();
+    // Extract query parameters
+    const { name, minEmployees, maxEmployees, ...rest } = req.query;
+
+    // Validate unexpected parameters
+    if (Object.keys(rest).length > 0) {
+      throw new BadRequestError("Invalid query parameters provided.");
+    }
+
+    // Validate minEmployees and maxEmployees
+    if (minEmployees && isNaN(minEmployees)) {
+      throw new BadRequestError("minEmployees must be a number.");
+    }
+    if (maxEmployees && isNaN(maxEmployees)) {
+      throw new BadRequestError("maxEmployees must be a number.");
+    }
+    if (minEmployees && maxEmployees && +minEmployees > +maxEmployees) {
+      throw new BadRequestError("minEmployees cannot be greater than maxEmployees.");
+    }
+
+    // Create filter criteria object
+    const filterCriteria = {
+      name: name || null,
+      minEmployees: minEmployees ? +minEmployees : null,
+      maxEmployees: maxEmployees ? +maxEmployees : null,
+    };
+
+    // Call the model method with the filter criteria
+    const companies = await Company.findAll(filterCriteria);
     return res.json({ companies });
   } catch (err) {
     return next(err);
   }
 });
+
 
 /** GET /[handle]  =>  { company }
  *
