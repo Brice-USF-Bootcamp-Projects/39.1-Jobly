@@ -1,3 +1,5 @@
+// config.js  
+
 "use strict";
 
 /** Shared config for application; can be required many places. */
@@ -9,11 +11,16 @@ const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
 
 const PORT = +process.env.PORT || 3001;
 
-// Use dev database, testing database, or via env var, production database
+
+// Determine the correct database URI based on "development", "production", and "testing" as values for NODE_ENV:
 function getDatabaseUri() {
-  return (process.env.NODE_ENV === "test")
-      ? "postgresql:///jobly_test"
-      : process.env.DATABASE_URL || "postgresql:///jobly";
+  if (process.env.NODE_ENV === "production") {
+    return process.env.PROD_DATABASE_URL || "postgresql:///jobly_production";
+  } else if (process.env.NODE_ENV === "testing") {
+    return process.env.TEST_DATABASE_URL || "postgresql:///jobly_test";
+  } else {
+    return process.env.DEV_DATABASE_URL || "postgresql:///jobly";
+  }
 }
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
