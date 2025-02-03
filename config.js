@@ -7,19 +7,19 @@
 require("dotenv").config();
 require("colors");
 
-const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
+const SECRET_KEY = process.env.SECRET_KEY;
 
-const PORT = +process.env.PORT || 3001;
+const PORT = +process.env.PORT;
 
 
 // Determine the correct database URI based on "development", "production", and "testing" as values for NODE_ENV:
 function getDatabaseUri() {
   if (process.env.NODE_ENV === "production") {
-    return process.env.PROD_DATABASE_URL || "postgresql:///jobly_production";
+    return process.env.PROD_DATABASE_URL; 
   } else if (process.env.NODE_ENV === "testing") {
-    return process.env.TEST_DATABASE_URL || "postgresql:///jobly_test";
+    return process.env.TEST_DATABASE_URL;
   } else {
-    return process.env.DEV_DATABASE_URL || "postgresql:///jobly";
+    return process.env.DEV_DATABASE_URL;
   }
 }
 
