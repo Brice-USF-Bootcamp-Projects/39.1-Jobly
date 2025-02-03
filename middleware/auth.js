@@ -1,3 +1,5 @@
+// middleware/auth.js
+
 "use strict";
 
 /** Convenience middleware to handle common auth cases in routes. */
@@ -19,13 +21,17 @@ function authenticateJWT(req, res, next) {
     const authHeader = req.headers && req.headers.authorization;
     if (authHeader) {
       const token = authHeader.replace(/^[Bb]earer /, "").trim();
-      res.locals.user = jwt.verify(token, SECRET_KEY);
+      const payload = jwt.verify(token, SECRET_KEY);
+      console.log("Decoded Token Payload:", payload);  // Debugging
+      res.locals.user = payload;
     }
     return next();
   } catch (err) {
+    console.error("JWT Verification Failed:", err);  // Debugging
     return next();
   }
 }
+
 
 /** Middleware to use when they must be logged in.
  *
@@ -48,14 +54,19 @@ function ensureLoggedIn(req, res, next) {
 
 function ensureAdmin(req, res, next) {
   try {
+    console.log("Checking Admin Privileges for:", res.locals.user);
+
     if (!res.locals.user || !res.locals.user.isAdmin) {
+      console.error("❌ Admin Check Failed: User is not admin or missing");
       throw new UnauthorizedError("Admin privileges required.");
     }
+
     return next();
   } catch (err) {
     return next(err);
   }
 }
+
 
 /** Middleware to ensure the user is the correct user or an admin.
  *

@@ -1,21 +1,18 @@
+// helpers/tokens.js
+
 const jwt = require("jsonwebtoken");
 const { SECRET_KEY } = require("../config");
 
-/** return signed JWT from user data. */
-
 function createToken(user) {
-  console.assert(
-    user.isAdmin !== undefined,
-    "createToken passed user without isAdmin property"
+  if (!user.username) throw new Error("createToken passed user without username");
+  if (user.isAdmin === undefined) user.isAdmin = false; // Ensure isAdmin is always set
+
+  return jwt.sign(
+    { username: user.username, isAdmin: user.isAdmin },
+    SECRET_KEY,
+    { expiresIn: "24h" }
   );
-
-  const payload = {
-    username: user.username,
-    isAdmin: user.isAdmin,
-  };
-
-  return jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
 }
 
-
 module.exports = { createToken };
+
