@@ -50,7 +50,7 @@ async function commonBeforeAll() {
     lastName: "U1L",
     email: "user1@user.com",
     password: "password1",
-    isAdmin: false, // Regular user (non-admin)
+    isAdmin: true, // Regular user (non-admin)
   });
 
   await User.register({

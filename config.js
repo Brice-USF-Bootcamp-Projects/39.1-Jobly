@@ -3,7 +3,7 @@
 "use strict";
 
 /** Shared config for application; can be required many places. */
-
+const { Client } = require("pg");
 require("dotenv").config();
 require("colors");
 
@@ -22,6 +22,17 @@ function getDatabaseUri() {
     return process.env.DEV_DATABASE_URL;
   }
 }
+
+
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false
+});
+
+client.connect()
+  .then(() => console.log("✅ Database connection successful"))
+  .catch(err => console.error("❌ Database connection error:", err));
 
 // Speed up bcrypt during tests, since the algorithm safety isn't being tested
 //
