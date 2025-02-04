@@ -45,6 +45,8 @@ console.log("PORT:".yellow, PORT.toString());
 console.log("BCRYPT_WORK_FACTOR".yellow, BCRYPT_WORK_FACTOR);
 console.log("Database:".yellow, getDatabaseUri());
 console.log("---");
+console.log("🌍 NODE_ENV:", process.env.NODE_ENV);
+
 
 module.exports = {
   SECRET_KEY,

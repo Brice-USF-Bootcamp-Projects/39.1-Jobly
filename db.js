@@ -1,42 +1,56 @@
 // db.js  
 
 "use strict";
+
 /** Database setup for Jobly. */
 
 const { Client } = require("pg");
 const { getDatabaseUri } = require("./config");
+const url = require("url");
 
 function createDbClient() {
   try {
     const connectionString = getDatabaseUri();
     const isProduction = process.env.NODE_ENV === "production";
 
-    // Check if a password is provided (needed for your PC setup)
-    const passwordRequired = Boolean(process.env.DB_PASSWORD);
+    // Parse the database URL
+    const params = new url.URL(connectionString);
 
     const dbConfig = {
-      connectionString,
+      host: params.hostname,
+      port: params.port || "5432",
+      user: params.username,
+      database: params.pathname.replace(/^\//, ""),
       ssl: isProduction ? { rejectUnauthorized: false } : false,
-      password: passwordRequired ? process.env.DB_PASSWORD : null, // Only set if required
     };
 
-    console.log("📡 Connecting to database...");
+    // 🛠️ Decode password and explicitly cast it to a string
+    if (params.password) {
+      dbConfig.password = String(decodeURIComponent(params.password)); // Force string conversion
+    } else {
+      console.warn("⚠️ No password found in DATABASE_URL");
+    }
+
+    console.log("🔍 DB Config:", dbConfig);
+    console.log("🛠 Password Type Check:", typeof dbConfig.password, `"${dbConfig.password}"`); // Should be "string"
+
     const db = new Client(dbConfig);
 
     db.connect()
       .then(() => console.log("✅ Database connection successful"))
       .catch((err) => {
         console.error("❌ Database connection error:", err);
-        process.exit(1); // Exit process if DB fails
+        process.exit(1);
       });
 
     return db;
   } catch (error) {
     console.error("🔥 Critical Error Initializing Database:", error);
-    process.exit(1); // Exit process on startup failure
+    process.exit(1);
   }
 }
 
 const db = createDbClient();
 
 module.exports = db;
+
