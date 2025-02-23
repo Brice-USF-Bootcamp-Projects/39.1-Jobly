@@ -76,6 +76,7 @@ router.get("/", async function (req, res, next) {
     // Create filter criteria object
     const filterCriteria = {
       name: name || null,
+      //handle: handle || null,
       minEmployees: minEmployees ? +minEmployees : null,
       maxEmployees: maxEmployees ? +maxEmployees : null,
     };

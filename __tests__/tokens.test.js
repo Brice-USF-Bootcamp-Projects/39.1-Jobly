@@ -10,6 +10,7 @@ describe("createToken", function () {
     const payload = jwt.verify(token, SECRET_KEY);
     expect(payload).toEqual({
       iat: expect.any(Number),
+      exp: expect.any(Number), // Now allows exp field
       username: "test",
       isAdmin: false,
     });
@@ -20,6 +21,7 @@ describe("createToken", function () {
     const payload = jwt.verify(token, SECRET_KEY);
     expect(payload).toEqual({
       iat: expect.any(Number),
+      exp: expect.any(Number), // Now allows exp field
       username: "test",
       isAdmin: true,
     });
